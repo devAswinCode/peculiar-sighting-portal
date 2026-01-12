@@ -22,7 +22,7 @@
 
   async function loadReports() {
     try {
-      const res = await fetch("/api/reports");
+      const res = await fetch("reports.json");
       const reports = await res.json();
 
       if (reports.length === 0) {
