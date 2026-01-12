@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Report a Peculiar Sighting</title>
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>Report a Peculiar Sighting</h1>
+
+  <form id="reportForm">
+    <div class="left-column">
+      <label for="userName">Name*</label>
+      <input id="userName" name="name" placeholder="Who witnessed this?" required>
+
+      <label for="contact">Contact Information</label>
+      <input id="contact" name="contact" placeholder="Email or Raven address">
+
+      <label for="datetime">Date & Time of Sighting*</label>
+      <input type="datetime-local" id="datetime" name="datetime" required>
+
+      <label for="location">Location*</label>
+      <input id="location" name="location" placeholder="e.g. The Misty Mountains" required>
+    </div>
+
+    <div class="right-column">
+      <label for="type">Sighting Category*</label>
+      <select id="type" name="type" required>
+        <option value="">-- Select a Category --</option>
+        <option value="ghost">Ghost Sighting</option>
+        <option value="animal">Escaped Magical Animal</option>
+        <option value="ufo">Extraterrestrial Craft</option>
+        <option value="cryptid">Unidentified Cryptid</option>
+        <option value="glitch">Reality Glitch / Time Slip</option>
+        <option value="cursed">Cursed or Haunted Object</option>
+      </select>
+
+      <div id="subtype-container"></div>
+
+      <label for="description">Detailed Description</label>
+      <textarea id="description" name="description" placeholder="Describe the peculiar event in detail..."></textarea>
+    </div>
+
+    <div class="button-container">
+      <button type="submit">Submit Report</button>
+      
+      <a href="reports.html" class="fancy-view-link">View Archives</a>
+      
+      <p id="status" aria-live="polite"></p>
+    </div>
+  </form>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

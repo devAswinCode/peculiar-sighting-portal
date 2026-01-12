@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1000000000001,
+    "name": "Elenore Vance",
+    "contact": "Hill House Archives",
+    "type": "ghost",
+    "subtype": "Poltergeist",
+    "datetime": "1963-10-15T23:59",
+    "location": "Hill House, Massachusetts",
+    "description": "The walls appear to be 'breathing' and loud pounding sounds are coming from the hallway. No physical source found.",
+    "submittedAt": "2026-01-12T09:00:00.000Z"
+  },
+  {
+    "id": 1000000000002,
+    "name": "Newt Scamander",
+    "contact": "Magizoology Dept",
+    "type": "animal",
+    "subtype": "Niffler",
+    "datetime": "1926-11-20T14:30",
+    "location": "Steen National Bank, NYC",
+    "description": "Small, platypus-like creature escaped. Last seen attempting to crawl into a vault. High affinity for gold.",
+    "submittedAt": "2026-01-12T09:15:00.000Z"
+  },
+  {
+    "id": 1000000000003,
+    "name": "Fox Mulder",
+    "contact": "Unlisted - FBI",
+    "type": "ufo",
+    "subtype": "Metallic Disk",
+    "datetime": "1993-05-10T02:00",
+    "location": "Bellefleur, Oregon",
+    "description": "Bright white light stalled the car engine. Observed a metallic craft hovering silently. I want to believe.",
+    "submittedAt": "2026-01-12T09:30:00.000Z"
+  },
+  {
+    "id": 1000000000004,
+    "name": "Lorraine Warren",
+    "contact": "Ed & Lorraine Investigations",
+    "type": "cursed",
+    "subtype": "Haunted Doll",
+    "datetime": "1970-03-12T12:00",
+    "location": "Hartford, Connecticut",
+    "description": "A porcelain doll named Annabelle keeps moving locations on its own. It has begun writing messages on parchment.",
+    "submittedAt": "2026-01-12T09:45:00.000Z"
+  },
+  {
+    "id": 1000000000005,
+    "name": "Samwise Gamgee",
+    "contact": "The Shire",
+    "type": "animal",
+    "subtype": "Giant Spider",
+    "datetime": "2003-12-17T20:00",
+    "location": "Cirith Ungol",
+    "description": "Encountered a massive, ancient spider. It seems to have been there for ages. Very dangerous.",
+    "submittedAt": "2026-01-12T10:00:00.000Z"
+  },
+  {
+    "id": 1000000000006,
+    "name": "Arthur Frayn",
+    "contact": "Elysium Lab",
+    "type": "glitch",
+    "subtype": "Time Slip",
+    "datetime": "2293-01-01T00:00",
+    "location": "The Vortex",
+    "description": "Observed a massive floating stone head known as Zardoz. Reality seems to be fracturing into digital fragments.",
+    "submittedAt": "2026-01-12T10:15:00.000Z"
+  },
+  {
+    "id": 1000000000007,
+    "name": "Gerry Lane",
+    "contact": "UN Field Office",
+    "type": "cryptid",
+    "subtype": "Fast-moving Swarm",
+    "datetime": "2013-06-21T08:00",
+    "location": "Jerusalem Walls",
+    "description": "Massive group of unidentified humanoids climbing walls with incredible speed. Highly aggressive.",
+    "submittedAt": "2026-01-12T10:30:00.000Z"
+  },
+  {
+    "id": 1000000000008,
+    "name": "Danny Torrance",
+    "contact": "Room 237",
+    "type": "ghost",
+    "subtype": "Victorian Lady",
+    "datetime": "1980-05-23T15:00",
+    "location": "Overlook Hotel",
+    "description": "Saw two twin girls in the hallway. They asked me to play with them forever. Redrum written on the door.",
+    "submittedAt": "2026-01-12T10:45:00.000Z"
+  },
+  {
+    "id": 1000000000009,
+    "name": "Ash Williams",
+    "contact": "S-Mart Hardware",
+    "type": "cursed",
+    "subtype": "Forbidden Book",
+    "datetime": "1981-10-15T21:00",
+    "location": "Cabin in the Woods",
+    "description": "Found a book bound in human skin. After reading a passage, the trees outside started moving. Groovy.",
+    "submittedAt": "2026-01-12T11:00:00.000Z"
+  },
+  {
+    "id": 1000000000010,
+    "name": "Thomas Anderson",
+    "contact": "Neo777",
+    "type": "glitch",
+    "subtype": "Duplicate Person",
+    "datetime": "1999-03-31T09:00",
+    "location": "Matrix Subway",
+    "description": "Saw a black cat walk by twice. Exactly the same way both times. Deja vu. A glitch in the system.",
+    "submittedAt": "2026-01-12T11:15:00.000Z"
+  }
+]

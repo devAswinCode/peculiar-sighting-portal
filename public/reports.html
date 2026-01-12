@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Submitted Reports</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container reports-page">
+  <h1>Submitted Peculiar Sightings</h1>
+  <div class="header-nav">
+    <a href="/" class="fancy-view-link">Submit a New Sighting</a>
+  </div>
+  
+  <div id="reportsList" class="reports-grid"></div>
+</div>
+
+<script>
+  const reportsList = document.getElementById("reportsList");
+
+  async function loadReports() {
+    try {
+      const res = await fetch("/api/reports");
+      const reports = await res.json();
+
+      if (reports.length === 0) {
+        reportsList.innerHTML = "<p class='empty-state'>The archives are empty...</p>";
+        return;
+      }
+
+      // Generating Glass Cards for each report
+      reportsList.innerHTML = reports.map(r => `
+  <div class="report-card">
+    <div class="card-top">
+      <span class="type-tag">${r.type}</span>
+      <span class="date-tag">
+        ${new Date(r.datetime).toLocaleString([], {year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit'})}
+      </span>
+    </div>
+    <h3>${r.subtype || 'Unknown Sighting'}</h3>
+    <p class="description-text">${r.description || 'No detailed description.'}</p>
+    <div class="card-details">
+      <p><strong>Witness:</strong> ${r.name}</p>
+      <p><strong>Location:</strong> ${r.location}</p>
+      <p style="font-size: 0.7rem; opacity: 0.6; margin-top: 10px;">
+        Recorded at: ${new Date(r.submittedAt).toLocaleString()}
+      </p>
+    </div>
+  </div>
+`).join("");
+    } catch (err) {
+      reportsList.innerHTML = "<p class='empty-state'>Error loading archives.</p>";
+      console.error(err);
+    }
+  }
+
+  loadReports();
+</script>
+</body>
+</html>
