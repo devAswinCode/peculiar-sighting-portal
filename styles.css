@@ -286,3 +286,35 @@ button[type="submit"]:hover {
   padding-bottom: 20px;
   width: 100%;            /* Ensures it spans the whole container */
 }
+/* Hide the real system cursor everywhere */
+html, body, a, button, input, select, textarea {
+  cursor: none !important;
+}
+
+#custom-cursor {
+  width: 25px; /* Slightly larger to be visible */
+  height: 25px;
+  background: rgba(125, 211, 252, 0.6); 
+  border: 2px solid #7dd3fc;
+  border-radius: 50%;
+  position: fixed; 
+  top: 0;
+  left: 0;
+  pointer-events: none; 
+  z-index: 10000; /* Ensure this is higher than everything else */
+  box-shadow: 0 0 20px #7dd3fc, 0 0 40px rgba(125, 211, 252, 0.4);
+  transform: translate(-50%, -50%);
+  display: block !important; /* Force it to show */
+}
+
+/* 3. Animation for clicking */
+#custom-cursor.clicking {
+  transform: translate(-50%, -50%) scale(0.7);
+  background: rgba(125, 211, 252, 0.9);
+}
+
+/* 4. Restoration for hovering over buttons */
+a:hover ~ #custom-cursor, 
+button:hover ~ #custom-cursor {
+  transform: translate(-50%, -50%) scale(1.5);
+}
