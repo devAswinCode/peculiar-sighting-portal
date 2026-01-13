@@ -92,3 +92,28 @@ form.addEventListener("submit", async (e) => {
   // Optional: Auto-clear status message after 5 seconds
   setTimeout(() => { statusMessage.textContent = ""; }, 5000);
 });
+  // --- MAGICAL MOUSE TRAIL ---
+  // This listener creates a new 'sparkle' div every time the mouse moves.
+  document.addEventListener('mousemove', (e) => {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      
+      // We position the sparkle exactly where the mouse is
+      // pageX and pageY account for scrolling
+      sparkle.style.left = `${e.pageX}px`;
+      sparkle.style.top = `${e.pageY}px`;
+      
+      // Randomize the size slightly (between 2px and 10px) 
+      // to make it look like natural stardust
+      const size = Math.random() * 8 + 2;
+      sparkle.style.width = `${size}px`;
+      sparkle.style.height = `${size}px`;
+
+      document.body.appendChild(sparkle);
+
+      // CRITICAL: We remove the element after 1 second so 
+      // we don't slow down the browser with thousands of divs.
+      setTimeout(() => {
+          sparkle.remove();
+    }, 1000);
+});
