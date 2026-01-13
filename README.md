@@ -1,41 +1,57 @@
-📜 Peculiar Sighting Tracker
-An immersive, full-stack reporting tool for the paranormal and mysterious.
-🌌 Project Overview
-This project was built to satisfy a creative brief for a "Report a Peculiar Sighting" website. It allows users to log encounters with ghosts, magical animals, and other-worldly phenomena. The design focuses on a "Fantasy/Middle-Earth" aesthetic while maintaining modern web standards for accessibility and responsiveness.
+Project: Peculiar Sighting Tracker
+A "Report a Sighting" Web Portal for the Paranormal and Magical
 
-🛠️ Technology Choices
-Frontend: Vanilla HTML5, CSS3, and JavaScript. I chose to avoid heavy frameworks (like React) to ensure the site loads instantly and feels lightweight, matching the "ancient archive" theme.
+Project Overview
+This project is a functional, immersive web application designed to allow users to report and archive unusual sightings, such as ghost encounters or escaped magical animals. The portal emphasizes thematic immersion, WCAG 2.2 accessibility, and resilient data handling within a static hosting environment.
 
-Styling: I implemented Glassmorphism (frosted glass effect) using backdrop-filter and custom CSS Gradients to create a cinematic, high-end feel.
+Technology Stack
+Frontend: HTML5, CSS3, JavaScript (ES6+).
 
-Backend Strategy: The system uses a RESTful API approach. For the live demonstration on GitHub Pages, I implemented a Local Storage Fallback so that data persists even without a live database server.
+Hosting: GitHub Pages (Static Hosting).
 
-🧪 Key Features & Implementation
-Dynamic Form Logic: Using a custom JavaScript object mapping, the form's secondary options change instantly based on the "Sighting Category." This prevents user error and ensures data quality.
+Data Persistence: Hybrid approach using JSON (Static Lore) and LocalStorage (User-generated content).
 
-Mobile First: I used CSS Grid and Media Queries to ensure the 2-column desktop layout stacks perfectly into a 1-column mobile view for "on-the-go" reporting.
+Asset Management: Background video and audio toggles optimized for browser autoplay policies.
 
-Cinematic UX: I added custom page transitions (pageReveal animations) and a specific "Middle-Earth" circular submit button to enhance the storytelling aspect of the site.
+Technical Architecture and Logic
+1. Hybrid Data Management
+Because GitHub Pages does not support server-side file writing, I implemented a Hybrid Data Layer:
 
-♿ Accessibility (WCAG 2.2 AA)
-Accessibility was a core priority for this build:
+Official Archives (reports.json): Acts as a read-only database for pre-existing official sightings.
 
-Semantic HTML: Used proper <label>, <input>, and <nav> elements.
+Browser Persistence (LocalStorage): When a user submits a report, the data is stringified into JSON and stored in the browser's local memory.
 
-Screen Reader Friendly: Added aria-live="polite" to the status messages so users with visual impairments receive immediate feedback upon submission.
+Data Merging: The "View Archives" page runs an asynchronous script that fetches the static JSON file and merges it with the LocalStorage array, providing a seamless "live" experience for the user without requiring a paid backend.
 
-Color Contrast: All text colors were tested against the dark background to ensure they meet AA standards for readability.
+2. Dynamic Form Behavior
+The reporting form utilizes event listeners to monitor the "Sighting Category." Based on the user's selection, the "Specify Entity" dropdown dynamically updates its options (e.g., switching between a list of Ghost types and Magical Animal species), fulfilling the core requirement for Dynamic Form Behavior.
 
-🚀 How to Run Locally
-Clone the repository: git clone [Your-Repo-Link]
+3. Audio and Video Implementation
+To comply with strict browser security policies (like Safari's Autoplay restrictions), I implemented a manual Audio Toggle. This ensures the atmosphere is user-invoked, preventing the browser from blocking the site’s media elements.
 
-Open index.html in any modern web browser.
+Accessibility (WCAG 2.2 AA Compliance)
+Special attention was given to ensure the portal is usable by all investigators:
 
-To view the archives, click the "View Archives" link at the bottom of the form.
+Semantic HTML: Used proper label tags with "for" attributes linked to input IDs for screen reader compatibility.
 
-How to add this to GitHub:
-Create a new file in your project folder called README.md.
+Keyboard Navigation: Implemented custom focus rings with a cyan glow to ensure users navigating via the Tab key can clearly see their location.
 
-Paste the text above into it.
+Contrast and Legibility: Adjusted placeholder text opacity and container backgrounds to meet AA contrast ratios.
 
-Upload it to GitHub along with your .html, .css, and .js files.
+Interactive Safety: The custom "Glowing Orb" cursor uses "pointer-events: none" to ensure it never interferes with the clickability of form elements.
+
+Creative Features (Big Picture)
+Immersive UX: A custom JavaScript-driven cursor (Glowing Orb) with a sparkle trail that tracks mouse movement using clientX/Y coordinates for accuracy across different screen sizes.
+
+Visual Feedback: The submission process includes state changes (disabling the button and changing text) to inform the user that their data is being transmitted to the archives.
+
+Export Capability: A "Download for Excel" feature that converts LocalStorage data into a CSV format, demonstrating the ability to move data out of the browser.
+
+How to Run Locally
+Clone the repository.
+
+Open the folder in a code editor (e.g., VS Code).
+
+Use an extension like Live Server to host locally (this prevents CORS errors when fetching the reports.json file).
+
+Navigate to index.html to begin reporting sightings.
