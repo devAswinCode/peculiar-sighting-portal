@@ -162,8 +162,14 @@ button[type="submit"] {
   padding: 20px;
 }
 
-/* --- 6. CURSOR & MAGICAL EFFECTS --- */
-/* Base: Cursor is standard, Orb is hidden (Safe for Mobile) */
+* --- 6. CURSOR & MAGICAL EFFECTS --- */
+
+/* 1. Global Safety: Ensure standard cursor is visible by default */
+html, body, a, button, input, select, textarea {
+  cursor: auto; 
+}
+
+/* 2. The Orb: Hidden by default so it doesn't get stuck at 0,0 */
 #custom-cursor {
   display: none;
   position: fixed;
@@ -178,29 +184,46 @@ button[type="submit"] {
   z-index: 10000;
   box-shadow: 0 0 20px #7dd3fc, 0 0 40px rgba(125, 211, 252, 0.4);
   transform: translate(-50%, -50%);
-  transition: transform 0.1s ease-out;
+  /* Remove transition for cursor movement to prevent "lag" feeling */
+  transition: width 0.3s, height 0.3s, background 0.3s; 
 }
 
-/* Desktop Only: Hide mouse and show Orb */
+/* 3. Desktop Magic: Only apply if device has a mouse and supports hover */
 @media (pointer: fine) and (hover: hover) {
+  /* Hide the system cursor only on Desktop */
   html, body, a, button, input, select, textarea {
     cursor: none !important;
   }
 
+  /* Show the orb */
   #custom-cursor {
     display: block;
   }
 
+  /* Scale effect when clicking */
   #custom-cursor.clicking {
     transform: translate(-50%, -50%) scale(0.7);
     background: rgba(125, 211, 252, 0.9);
   }
 
-  /* Hover states for Orb scaling */
+  /* Hover scaling - simplified to target any clickable element */
   a:hover ~ #custom-cursor, 
   button:hover ~ #custom-cursor,
-  input:hover ~ #custom-cursor {
-    transform: translate(-50%, -50%) scale(1.5);
+  input:hover ~ #custom-cursor,
+  select:hover ~ #custom-cursor {
+    width: 40px;
+    height: 40px;
+    background: rgba(125, 211, 252, 0.3);
+  }
+}
+
+/* 4. Mobile Safety: Force hide orb and restore cursor on touch devices */
+@media (pointer: coarse) {
+  #custom-cursor {
+    display: none !important;
+  }
+  html, body, a, button, input, select, textarea {
+    cursor: auto !important;
   }
 }
 
@@ -213,7 +236,6 @@ button[type="submit"] {
   animation: fadeOut 1s forwards;
   z-index: 9999;
 }
-
 /* --- 7. ANIMATIONS --- */
 @keyframes pageReveal {
   from { opacity: 0; transform: translateY(10px); filter: blur(5px); }
