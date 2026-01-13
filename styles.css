@@ -236,3 +236,18 @@ button[type="submit"]:hover {
         transform: translateY(20px) scale(0);
     }
 }
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Keeps the video aspect ratio perfect */
+  z-index: -1;       /* Ensures it stays behind your 'Glass' cards */
+  filter: brightness(0.3); /* Dims the video so your text 'pops' */
+}
+
+/* Remove your old background image from the body */
+body {
+  background: black; /* Solid fallback if the video takes time to load */
+}
