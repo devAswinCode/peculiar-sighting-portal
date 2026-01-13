@@ -1,6 +1,41 @@
 document.addEventListener("DOMContentLoaded", () => {
     
-    // --- 1. GLOBAL: AUDIO ENGINE ---
+// Detect if the user is using a touchscreen
+let isTouchDevice = false;
+
+window.addEventListener('touchstart', function onFirstTouch() {
+    isTouchDevice = true;
+    const cursor = document.getElementById('custom-cursor');
+    if (cursor) cursor.style.display = 'none';
+    // Remove the listener once touch is detected
+    window.removeEventListener('touchstart', onFirstTouch, false);
+}, false);
+
+// Now, wrap your mousemove logic in a check
+document.addEventListener('mousemove', (e) => {
+    // If it's a touch device, or doesn't have a mouse, stop here
+    if (isTouchDevice || !window.matchMedia("(pointer: fine)").matches) return;
+
+    const cursor = document.getElementById('custom-cursor');
+    if (cursor) {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    }
+
+    // Sparkle logic follows...
+    createSparkle(e.pageX, e.pageY);
+});
+
+function createSparkle(x, y) {
+    if (isTouchDevice) return; // No sparkles on mobile for better performance
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    sparkle.style.left = x + 'px';
+    sparkle.style.top = y + 'px';
+    document.body.appendChild(sparkle);
+    setTimeout(() => sparkle.remove(), 800);
+}  
+  // --- 1. GLOBAL: AUDIO ENGINE ---
     // This runs on both pages because the audio button exists in both
     const audio = document.getElementById("spooky-audio");
     const audioBtn = document.getElementById("audio-toggle");
