@@ -276,3 +276,13 @@ button[type="submit"]:hover {
   background: rgba(125, 211, 252, 0.2);
   transform: scale(1.1);
 }
+
+/* Centering the navigation at the bottom of the Archives */
+.bottom-nav {
+  display: flex;
+  justify-content: center; /* Horizontally centers the link */
+  align-items: center;
+  margin-top: 40px;       /* Adds space between the cards and the button */
+  padding-bottom: 20px;
+  width: 100%;            /* Ensures it spans the whole container */
+}
