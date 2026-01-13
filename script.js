@@ -94,28 +94,27 @@ document.addEventListener("DOMContentLoaded", () => {
 const cursor = document.getElementById('custom-cursor');
 
 document.addEventListener('mousemove', (e) => {
-    // 1. Move the Main Orb (The Leader)
-    if (cursor) {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
+    // Check if the device actually has a fine pointer (mouse)
+    if (window.matchMedia("(pointer: fine)").matches) {
+        
+        // 1. Move the Main Orb
+        if (cursor) {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        }
+
+        // 2. Create the Trail/Sparkles
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        // Use pageX/Y for sparkles so they stay in place when scrolling
+        sparkle.style.left = e.pageX + 'px';
+        sparkle.style.top = e.pageY + 'px';
+        
+        document.body.appendChild(sparkle);
+
+        setTimeout(() => {
+            sparkle.remove();
+        }, 800);
     }
-
-    // 2. Create the Trail/Sparkles (The Followers)
-    const sparkle = document.createElement('div');
-    sparkle.className = 'sparkle';
-    sparkle.style.left = e.pageX + 'px';
-    sparkle.style.top = e.pageY + 'px';
-    
-    // Randomize sparkle size
-    const size = Math.random() * 5 + 2;
-    sparkle.style.width = size + 'px';
-    sparkle.style.height = size + 'px';
-
-    document.body.appendChild(sparkle);
-
-    // Remove sparkle after a short time
-    setTimeout(() => {
-        sparkle.remove();
-    }, 800);
 });
 

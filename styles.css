@@ -318,3 +318,38 @@ a:hover ~ #custom-cursor,
 button:hover ~ #custom-cursor {
   transform: translate(-50%, -50%) scale(1.5);
 }
+
+/* Only hide the cursor and show the orb on devices that use a mouse */
+@media (pointer: fine) {
+  html, body, a, button, input, select, textarea {
+    cursor: none !important;
+  }
+
+  #custom-cursor {
+    width: 25px;
+    height: 25px;
+    background: rgba(125, 211, 252, 0.6); 
+    border: 2px solid #7dd3fc;
+    border-radius: 50%;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    pointer-events: none; 
+    z-index: 10000;
+    box-shadow: 0 0 20px #7dd3fc, 0 0 40px rgba(125, 211, 252, 0.4);
+    transform: translate(-50%, -50%);
+    display: block !important;
+  }
+}
+
+/* Hide the orb completely on touchscreens (phones/tablets) */
+@media (pointer: coarse) {
+  #custom-cursor {
+    display: none !important;
+  }
+  
+  /* Ensure the default touch behavior is restored */
+  html, body {
+    cursor: auto !important;
+  }
+}
