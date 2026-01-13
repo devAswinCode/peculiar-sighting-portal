@@ -215,3 +215,24 @@ button[type="submit"]:hover {
     font-size: 0.7rem;
   }
 }
+/*sparkles glow and fade out beautifully mouse*/
+.sparkle {
+    position: absolute;
+    background: radial-gradient(circle, #fff, #7dd3fc); /* Glowing white/blue core */
+    border-radius: 50%;
+    pointer-events: none; /* Crucial: ensures sparkles don't block clicks */
+    box-shadow: 0 0 10px #7dd3fc;
+    animation: fadeOut 1s forwards;
+    z-index: 9999;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(20px) scale(0);
+    }
+}
