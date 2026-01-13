@@ -1,49 +1,57 @@
 document.addEventListener("DOMContentLoaded", () => {
     
-// Detect if the user is using a touchscreen
-let isTouchDevice = false;
-
-window.addEventListener('touchstart', function onFirstTouch() {
-    isTouchDevice = true;
+    // --- 1. GLOBAL: MOUSE & TOUCH LOGIC (ORB FIX) ---
+    let isTouchDevice = false;
     const cursor = document.getElementById('custom-cursor');
-    if (cursor) cursor.style.display = 'none';
-    // Remove the listener once touch is detected
-    window.removeEventListener('touchstart', onFirstTouch, false);
-}, false);
 
-// Now, wrap your mousemove logic in a check
-document.addEventListener('mousemove', (e) => {
-    // If it's a touch device, or doesn't have a mouse, stop here
-    if (isTouchDevice || !window.matchMedia("(pointer: fine)").matches) return;
+    // Detect touch once and kill the orb forever for this session
+    window.addEventListener('touchstart', function onFirstTouch() {
+        isTouchDevice = true;
+        if (cursor) cursor.style.display = 'none';
+        window.removeEventListener('touchstart', onFirstTouch, false);
+    }, false);
 
-    const cursor = document.getElementById('custom-cursor');
-    if (cursor) {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
+    // Single MouseMove Listener for both Orb and Sparkles
+    document.addEventListener('mousemove', (e) => {
+        // Exit if it's a touch device or doesn't have a fine pointer
+        if (isTouchDevice || !window.matchMedia("(pointer: fine)").matches) {
+            if (cursor) cursor.style.display = 'none';
+            return;
+        }
+
+        // 1. Move the Main Orb (Fixed to window)
+        if (cursor) {
+            cursor.style.display = 'block';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        }
+
+        // 2. Create the Trail/Sparkles (Absolute to page)
+        createSparkle(e.pageX, e.pageY);
+    });
+
+    function createSparkle(x, y) {
+        if (isTouchDevice) return; 
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.style.left = x + 'px';
+        sparkle.style.top = y + 'px';
+        
+        const size = Math.random() * 8 + 2;
+        sparkle.style.width = size + 'px';
+        sparkle.style.height = size + 'px';
+        
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 800);
     }
 
-    // Sparkle logic follows...
-    createSparkle(e.pageX, e.pageY);
-});
-
-function createSparkle(x, y) {
-    if (isTouchDevice) return; // No sparkles on mobile for better performance
-    const sparkle = document.createElement('div');
-    sparkle.className = 'sparkle';
-    sparkle.style.left = x + 'px';
-    sparkle.style.top = y + 'px';
-    document.body.appendChild(sparkle);
-    setTimeout(() => sparkle.remove(), 800);
-}  
-  // --- 1. GLOBAL: AUDIO ENGINE ---
-    // This runs on both pages because the audio button exists in both
+    // --- 2. GLOBAL: AUDIO ENGINE ---
     const audio = document.getElementById("spooky-audio");
     const audioBtn = document.getElementById("audio-toggle");
 
     if (audioBtn && audio) {
         audioBtn.addEventListener("click", () => {
             if (audio.paused) {
-                // Safari/Chrome require a user gesture to play audio
                 audio.play().then(() => {
                     audioBtn.textContent = "🔊 Sound: ON";
                 }).catch(err => console.log("Audio blocked:", err));
@@ -54,21 +62,7 @@ function createSparkle(x, y) {
         });
     }
 
-    // --- 2. GLOBAL: MAGICAL MOUSE TRAIL ---
-    document.addEventListener('mousemove', (e) => {
-        const sparkle = document.createElement('div');
-        sparkle.className = 'sparkle';
-        sparkle.style.left = `${e.pageX}px`;
-        sparkle.style.top = `${e.pageY}px`;
-        const size = Math.random() * 8 + 2;
-        sparkle.style.width = `${size}px`;
-        sparkle.style.height = `${size}px`;
-        document.body.appendChild(sparkle);
-        setTimeout(() => sparkle.remove(), 1000);
-    });
-
     // --- 3. PAGE SPECIFIC: FORM LOGIC ---
-    // We wrap this in an "if" check so it doesn't crash on the Reports page
     const typeSelect = document.getElementById("type");
     const subtypeContainer = document.getElementById("subtype-container");
     const form = document.getElementById("reportForm");
@@ -126,30 +120,3 @@ function createSparkle(x, y) {
         });
     }
 });
-const cursor = document.getElementById('custom-cursor');
-
-document.addEventListener('mousemove', (e) => {
-    // Check if the device actually has a fine pointer (mouse)
-    if (window.matchMedia("(pointer: fine)").matches) {
-        
-        // 1. Move the Main Orb
-        if (cursor) {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        }
-
-        // 2. Create the Trail/Sparkles
-        const sparkle = document.createElement('div');
-        sparkle.className = 'sparkle';
-        // Use pageX/Y for sparkles so they stay in place when scrolling
-        sparkle.style.left = e.pageX + 'px';
-        sparkle.style.top = e.pageY + 'px';
-        
-        document.body.appendChild(sparkle);
-
-        setTimeout(() => {
-            sparkle.remove();
-        }, 800);
-    }
-});
-
