@@ -92,31 +92,74 @@ document.addEventListener("DOMContentLoaded", () => {
                 </select>`;
         });
 
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            statusMessage.textContent = "📜 Logging sighting in the archives...";
-            const reportData = Object.fromEntries(new FormData(form));
-            reportData.id = Date.now();
-            reportData.submittedAt = new Date().toISOString();
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    // UI Feedback: Show the portal/spinner and update text
+    const submitBtn = document.getElementById('submitBtn');
+    const submitWrapper = document.querySelector('.submit-wrapper');
+    
+    statusMessage.textContent = "📜 Logging sighting in the archives...";
+    if (submitWrapper) submitWrapper.classList.add('portal-active');
+    if (submitBtn) submitBtn.disabled = true;
 
-            try {
-                const response = await fetch("/api/reports", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(reportData)
-                });
-                if (!response.ok) throw new Error("Offline");
-                statusMessage.textContent = "✦ Sighting successfully archived! ✦";
-            } catch (error) {
-                const localReports = JSON.parse(localStorage.getItem("reports") || "[]");
-                localReports.push(reportData);
-                localStorage.setItem("reports", JSON.stringify(localReports));
-                statusMessage.textContent = "✦ Sighting saved to local archives! ✦";
-                statusMessage.style.color = "#4ade80";
-            }
-            form.reset();
-            subtypeContainer.innerHTML = "";
-            setTimeout(() => { statusMessage.textContent = ""; }, 5000);
+    const reportData = Object.fromEntries(new FormData(form));
+    reportData.id = Date.now();
+    reportData.submittedAt = new Date().toLocaleString(); // More readable for email
+
+    try {
+        // Attempting API call (Will fail on GitHub Pages, moving to catch)
+        const response = await fetch("/api/reports", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(reportData)
         });
+        if (!response.ok) throw new Error("Offline");
+        statusMessage.textContent = "✦ Sighting successfully archived! ✦";
+    } catch (error) {
+        // --- LOCAL STORAGE FALLBACK ---
+        const localReports = JSON.parse(localStorage.getItem("reports") || "[]");
+        localReports.push(reportData);
+        localStorage.setItem("reports", JSON.stringify(localReports));
+        
+        statusMessage.textContent = "✦ Sighting saved to local archives! ✦";
+        statusMessage.style.color = "#4ade80";
+
+        // --- EMAIL TRIGGER ---
+        // We trigger this here so the sighter gets their email even if offline
+        sendEmailConfirmation(reportData);
     }
+
+    // Reset Form and UI
+    form.reset();
+    if (subtypeContainer) subtypeContainer.innerHTML = "";
+    
+    setTimeout(() => { 
+        statusMessage.textContent = ""; 
+        if (submitWrapper) submitWrapper.classList.remove('portal-active');
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerText = "SUBMIT REPORT";
+        }
+    }, 5000);
 });
+
+// Helper function to handle the mailto logic
+function sendEmailConfirmation(data) {
+    const myEmail = "itsmeaswinshaji@gmail.com"; 
+    const subject = encodeURIComponent(`Sighting Confirmation: ${data.type}`);
+    const body = encodeURIComponent(
+        `Hello,\n\n` +
+        `Your sighting has been recorded in the local archives.\n\n` +
+        `--- DETAILS ---\n` +
+        `Name: ${data.name}\n` +
+        `Type: ${data.type}\n` +
+        `Entity: ${data.subtype}\n` +
+        `Description: ${data.description}\n\n` +
+        `Date Logged: ${data.submittedAt}\n\n` +
+        `Keep looking at the stars.`
+    );
+
+    // This opens the user's mail app
+    window.location.href = `mailto:${myEmail}?subject=${subject}&body=${body}`;
+}
