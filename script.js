@@ -127,11 +127,11 @@ document.addEventListener("DOMContentLoaded", () => {
         audioBtn.addEventListener("click", () => {
             if (audio.paused) {
                 // Play and update button
-                audio.play();
+                audio.pause();
                 audioBtn.textContent = "🔊 Sound: ON";
             } else {
                 // Pause and update button
-                audio.pause();
+                audio.play();
                 audioBtn.textContent = "🔈 Sound: OFF";
             }
         });
