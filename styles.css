@@ -61,8 +61,14 @@ h1 {
   margin-bottom: 30px;
   letter-spacing: 2px;
   background: linear-gradient(to bottom, #ffffff 0%, #7dd3fc 50%, #0ea5e9 100%);
+  
+  /* Standard property for modern browsers (Fixes the VS Code hint) */
+  background-clip: text; 
+  
+  /* Vendor prefixes for Safari and older Chrome versions */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  
   filter: drop-shadow(0 0 8px rgba(125, 211, 252, 0.6));
 }
 
