@@ -113,39 +113,67 @@ textarea { height: 180px; resize: none; }
   grid-column: span 2; 
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; /* Centers everything horizontally */
   justify-content: center;
   margin-top: 30px;
+  gap: 20px; /* Consistent spacing between the button and the link */
 }
 
-button[type="submit"] {
-  width: 120px;
-  height: 120px;
-  background: transparent;
-  border: 1.5px solid rgba(255, 255, 255, 0.6);
-  border-radius: 50%;
+/* Base Styles for BOTH Submit and Links */
+button[type="submit"], 
+.fancy-view-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   color: #fff;
   font-family: 'Cinzel Decorative', serif;
-  font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  text-decoration: none;
+  cursor: none; /* Keep the custom orb as the only cursor */
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+}
+
+/* Specific Shapes */
+button[type="submit"] {
+  width: 130px;
+  height: 130px;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
 }
 
 .fancy-view-link {
-  display: inline-block;
-  margin-top: 25px;
-  padding: 10px 25px;
-  border: 1px solid rgba(125, 211, 252, 0.2);
+  padding: 12px 30px;
+  border: 1px solid rgba(125, 211, 252, 0.3);
   border-radius: 30px;
-  color: #7dd3fc;
-  text-decoration: none;
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 0.65rem;
-  text-transform: uppercase;
+  font-size: 0.7rem;
   letter-spacing: 4px;
-  transition: all 0.4s ease;
-  background: rgba(0, 0, 0, 0.2);
+  min-width: 200px; /* Ensures a consistent pill size */
+}
+
+/* --- THE UNIFIED MAGIC HOVER --- */
+button[type="submit"]:hover, 
+.fancy-view-link:hover {
+  background: rgba(125, 211, 252, 0.15);
+  border-color: #7dd3fc;
+  color: #7dd3fc;
+  transform: translateY(-5px) scale(1.05); /* Lift effect */
+  box-shadow: 
+    0 0 15px rgba(125, 211, 252, 0.4),
+    0 0 30px rgba(125, 211, 252, 0.2),
+    inset 0 0 10px rgba(125, 211, 252, 0.1);
+  letter-spacing: 5px; /* Subtle mystical expansion */
+}
+
+/* --- THE UNIFIED CLICK EFFECT --- */
+button[type="submit"]:active, 
+.fancy-view-link:active {
+  transform: translateY(2px) scale(0.95); /* Realistic press effect */
+  transition: all 0.1s;
 }
 
 /* --- 5. ARCHIVE GRID --- */
@@ -160,9 +188,15 @@ button[type="submit"] {
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 20px;
   padding: 20px;
+  backdrop-filter: blur(5px);
+  transition: border-color 0.3s;
 }
 
-* --- 6. CURSOR & MAGICAL EFFECTS --- */
+.report-card:hover {
+  border-color: #7dd3fc;
+}
+
+/*--- 6. CURSOR & MAGICAL EFFECTS --- */
 
 /* 1. Global Safety: Ensure standard cursor is visible by default */
 html, body, a, button, input, select, textarea {
