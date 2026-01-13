@@ -120,3 +120,30 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+// --- 4. ARCHIVES PAGE LOGIC ---
+function loadLocalArchives() {
+    const grid = document.getElementById('reports-grid');
+    if (!grid) return; 
+
+    const reports = JSON.parse(localStorage.getItem("reports") || "[]");
+
+    if (reports.length === 0) {
+        grid.innerHTML = "<p class='no-data' style='text-align:center; grid-column: 1/-1;'>The archives are currently empty...</p>";
+        return;
+    }
+
+    grid.innerHTML = reports.map(report => `
+        <div class="report-card">
+            <h3 style="color: #7dd3fc; margin-top: 0;">${report.type.toUpperCase()}: ${report.subtype || 'Unknown'}</h3>
+            <p><strong>Witness:</strong> ${report.name}</p>
+            <p>${report.description}</p>
+            <small style="color: rgba(255,255,255,0.5)">Log Date: ${report.submittedAt}</small>
+        </div>
+    `).reverse().join(''); 
+}
+
+// Single load listener
+window.addEventListener('load', () => {
+    console.log("Archives engine initialized...");
+    loadLocalArchives(); 
+});
