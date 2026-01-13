@@ -118,7 +118,7 @@ form.addEventListener("submit", async (e) => {
     }, 1000);
 });
 
-// --- 5. AUDIO ENGINE ---
+// --- 5. AUDIO ENGINE ----
 document.addEventListener("DOMContentLoaded", () => {
     const audio = document.getElementById("spooky-audio");
     const audioBtn = document.getElementById("audio-toggle");
@@ -127,11 +127,11 @@ document.addEventListener("DOMContentLoaded", () => {
         audioBtn.addEventListener("click", () => {
             if (audio.paused) {
                 // Play and update button
-                audio.pause();
+                audio.play();
                 audioBtn.textContent = "🔊 Sound: ON";
             } else {
                 // Pause and update button
-                audio.play();
+                audio.pause();
                 audioBtn.textContent = "🔈 Sound: OFF";
             }
         });
