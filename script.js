@@ -121,29 +121,49 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 // --- 4. ARCHIVES PAGE LOGIC ---
-function loadLocalArchives() {
+async function loadLocalArchives() {
     const grid = document.getElementById('reports-grid');
-    if (!grid) return; 
+    if (!grid) return;
 
-    const reports = JSON.parse(localStorage.getItem("reports") || "[]");
+    let allReports = [];
 
-    if (reports.length === 0) {
+    // 1. Fetch the "lore" from reports.json
+    try {
+        const response = await fetch("reports.json");
+        if (response.ok) {
+            const jsonReports = await response.json();
+            allReports = [...jsonReports]; 
+        }
+    } catch (err) {
+        console.warn("Could not load reports.json, showing local only.", err);
+    }
+
+    // 2. Fetch the "user sightings" from LocalStorage
+    const localData = JSON.parse(localStorage.getItem("reports") || "[]");
+    
+    // 3. Merge them into one master list
+    allReports = [...allReports, ...localData];
+
+    // 4. Handle Empty State
+    if (allReports.length === 0) {
         grid.innerHTML = "<p class='no-data' style='text-align:center; grid-column: 1/-1;'>The archives are currently empty...</p>";
         return;
     }
 
-    grid.innerHTML = reports.map(report => `
+    // 5. Display EVERYTHING (Newest at the top)
+    grid.innerHTML = allReports.map(report => `
         <div class="report-card">
-            <h3 style="color: #7dd3fc; margin-top: 0;">${report.type.toUpperCase()}: ${report.subtype || 'Unknown'}</h3>
-            <p><strong>Witness:</strong> ${report.name}</p>
-            <p>${report.description}</p>
-            <small style="color: rgba(255,255,255,0.5)">Log Date: ${report.submittedAt}</small>
+            <h3 style="color: #7dd3fc; margin-top: 0;">${(report.type || 'Sighting').toUpperCase()}: ${report.subtype || 'Unknown'}</h3>
+            <p><strong>Witness:</strong> ${report.name || 'Anonymous'}</p>
+            <p><strong>Location:</strong> ${report.location || 'Unknown'}</p>
+            <p>${report.description || 'No details provided.'}</p>
+            <small style="color: rgba(255,255,255,0.5)">Log Date: ${report.submittedAt || report.datetime || 'N/A'}</small>
         </div>
     `).reverse().join(''); 
 }
 
-// Single load listener
+// Single load listener to trigger the merge
 window.addEventListener('load', () => {
-    console.log("Archives engine initialized...");
+    console.log("Archives engine initialized and merging data...");
     loadLocalArchives(); 
 });
