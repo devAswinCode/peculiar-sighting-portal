@@ -117,3 +117,26 @@ form.addEventListener("submit", async (e) => {
           sparkle.remove();
     }, 1000);
 });
+
+// --- 5. AUDIO ENGINE ---
+const audio = document.getElementById("spooky-audio");
+const audioBtn = document.getElementById("audio-toggle");
+
+if (audioBtn && audio) {
+  audioBtn.addEventListener("click", () => {
+    if (audio.paused) {
+      // Try to play the sound
+      audio.play().then(() => {
+        audioBtn.textContent = "🔊 Sound: ON";
+        console.log("Atmosphere enabled.");
+      }).catch(error => {
+        console.log("Browser blocked audio: ", error);
+      });
+    } else {
+      // Pause the sound
+      audio.pause();
+      audioBtn.textContent = "🔈 Sound: OFF";
+      console.log("Atmosphere muted.");
+    }
+  });
+}
