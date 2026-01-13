@@ -1,139 +1,93 @@
-/**
- * PECULIAR SIGHTING TRACKER - LOGIC ENGINE
- * This script handles dynamic form behavior, UI feedback, and data persistence.
- */
-
-const typeSelect = document.getElementById("type");
-const subtypeContainer = document.getElementById("subtype-container");
-const form = document.getElementById("reportForm");
-const statusMessage = document.getElementById("status");
-
-// 1. DATA REPOSITORY
-// We use a central object to map categories to specific subtypes.
-// This makes it very easy to add more lore (UFOs, Cryptids, etc.) in the future.
-const sightingData = {
-  ghost: ["Victorian Lady", "Headless Monk", "Banshee", "Poltergeist", "Phantom Stagecoach"],
-  animal: ["Dragon", "Unicorn", "Phoenix", "Griffin", "Kelpie"],
-  ufo: ["Glowing Orb", "Metallic Disk", "Black Triangle", "Tic-Tac Craft"],
-  cryptid: ["Bigfoot", "Mothman", "Loch Ness Monster", "Chupacabra"],
-  glitch: ["Time Slip", "Duplicate Person", "Missing Texture"],
-  cursed: ["Haunted Doll", "Forbidden Tome", "Ancient Mirror"]
-};
-
-// 2. DYNAMIC FORM BEHAVIOR
-// This listener watches for changes in the 'Category' dropdown and 
-// injects a secondary 'Subtype' dropdown automatically.
-typeSelect.addEventListener("change", () => {
-  const selection = typeSelect.value;
-  
-  // If the user resets the selection, clear the subtype area
-  if (!sightingData[selection]) {
-    subtypeContainer.innerHTML = "";
-    return;
-  }
-
-  // Create the secondary dropdown with proper accessibility (label + id)
-  subtypeContainer.innerHTML = `
-    <label for="subtype">Specify ${selection.charAt(0).toUpperCase() + selection.slice(1)}*</label>
-    <select id="subtype" name="subtype" required>
-      <option value="">-- Please Choose --</option>
-      ${sightingData[selection].map(item => `<option value="${item}">${item}</option>`).join("")}
-    </select>
-  `;
-});
-
-// 3. FORM SUBMISSION & DATA PERSISTENCE
-form.addEventListener("submit", async (e) => {
-  e.preventDefault(); // Stop the page from refreshing
-
-  // Visual feedback to let the user know we are processing the report
-  statusMessage.textContent = "📜 Logging sighting in the archives...";
-  statusMessage.style.color = "#7dd3fc";
-
-  // Gather all form data into a clean object
-  const reportData = Object.fromEntries(new FormData(form));
-  
-  // Add a unique ID and a high-precision timestamp
-  reportData.id = Date.now();
-  reportData.submittedAt = new Date().toISOString();
-
-  /* TECHNICAL NOTE: 
-     In a full production environment, we would fetch('/api/reports') here.
-     For this demonstration, we use LocalStorage as a fallback so the 
-     data persists across page reloads on static hosting like GitHub.
-  */
-  try {
-    // Attempting real API call (will fail on static hosting, triggering catch)
-    const response = await fetch("/api/reports", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(reportData)
-    });
-
-    if (!response.ok) throw new Error("Offline Mode");
-    
-    statusMessage.textContent = "✦ Sighting successfully archived! ✦";
-
-  } catch (error) {
-    // LOCAL STORAGE FALLBACK LOGIC
-    // This ensures the "View Reports" page actually works during the evaluation.
-    const localReports = JSON.parse(localStorage.getItem("reports") || "[]");
-    localReports.push(reportData);
-    localStorage.setItem("reports", JSON.stringify(localReports));
-
-    statusMessage.textContent = "✦ Sighting saved to local archives! ✦";
-    statusMessage.style.color = "#4ade80";
-  }
-
-  // Cleanup: Reset the form and clear the dynamic dropdown
-  form.reset();
-  subtypeContainer.innerHTML = "";
-  
-  // Optional: Auto-clear status message after 5 seconds
-  setTimeout(() => { statusMessage.textContent = ""; }, 5000);
-});
-  // --- MAGICAL MOUSE TRAIL ---
-  // This listener creates a new 'sparkle' div every time the mouse moves.
-  document.addEventListener('mousemove', (e) => {
-      const sparkle = document.createElement('div');
-      sparkle.className = 'sparkle';
-      
-      // We position the sparkle exactly where the mouse is
-      // pageX and pageY account for scrolling
-      sparkle.style.left = `${e.pageX}px`;
-      sparkle.style.top = `${e.pageY}px`;
-      
-      // Randomize the size slightly (between 2px and 10px) 
-      // to make it look like natural stardust
-      const size = Math.random() * 8 + 2;
-      sparkle.style.width = `${size}px`;
-      sparkle.style.height = `${size}px`;
-
-      document.body.appendChild(sparkle);
-
-      // CRITICAL: We remove the element after 1 second so 
-      // we don't slow down the browser with thousands of divs.
-      setTimeout(() => {
-          sparkle.remove();
-    }, 1000);
-});
-
-// --- 5. AUDIO ENGINE ----
 document.addEventListener("DOMContentLoaded", () => {
+    
+    // --- 1. GLOBAL: AUDIO ENGINE ---
+    // This runs on both pages because the audio button exists in both
     const audio = document.getElementById("spooky-audio");
     const audioBtn = document.getElementById("audio-toggle");
 
     if (audioBtn && audio) {
         audioBtn.addEventListener("click", () => {
             if (audio.paused) {
-                // Play and update button
-                audio.play();
-                audioBtn.textContent = "🔊 Sound: ON";
+                // Safari/Chrome require a user gesture to play audio
+                audio.play().then(() => {
+                    audioBtn.textContent = "🔊 Sound: ON";
+                }).catch(err => console.log("Audio blocked:", err));
             } else {
-                // Pause and update button
                 audio.pause();
                 audioBtn.textContent = "🔈 Sound: OFF";
             }
+        });
+    }
+
+    // --- 2. GLOBAL: MAGICAL MOUSE TRAIL ---
+    document.addEventListener('mousemove', (e) => {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.style.left = `${e.pageX}px`;
+        sparkle.style.top = `${e.pageY}px`;
+        const size = Math.random() * 8 + 2;
+        sparkle.style.width = `${size}px`;
+        sparkle.style.height = `${size}px`;
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 1000);
+    });
+
+    // --- 3. PAGE SPECIFIC: FORM LOGIC ---
+    // We wrap this in an "if" check so it doesn't crash on the Reports page
+    const typeSelect = document.getElementById("type");
+    const subtypeContainer = document.getElementById("subtype-container");
+    const form = document.getElementById("reportForm");
+    const statusMessage = document.getElementById("status");
+
+    if (form && typeSelect) {
+        const sightingData = {
+            ghost: ["Victorian Lady", "Headless Monk", "Banshee", "Poltergeist", "Phantom Stagecoach"],
+            animal: ["Dragon", "Unicorn", "Phoenix", "Griffin", "Kelpie"],
+            ufo: ["Glowing Orb", "Metallic Disk", "Black Triangle", "Tic-Tac Craft"],
+            cryptid: ["Bigfoot", "Mothman", "Loch Ness Monster", "Chupacabra"],
+            glitch: ["Time Slip", "Duplicate Person", "Missing Texture"],
+            cursed: ["Haunted Doll", "Forbidden Tome", "Ancient Mirror"]
+        };
+
+        typeSelect.addEventListener("change", () => {
+            const selection = typeSelect.value;
+            if (!sightingData[selection]) {
+                subtypeContainer.innerHTML = "";
+                return;
+            }
+            subtypeContainer.innerHTML = `
+                <label for="subtype">Specify ${selection.charAt(0).toUpperCase() + selection.slice(1)}*</label>
+                <select id="subtype" name="subtype" required>
+                    <option value="">-- Please Choose --</option>
+                    ${sightingData[selection].map(item => `<option value="${item}">${item}</option>`).join("")}
+                </select>`;
+        });
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            statusMessage.textContent = "📜 Logging sighting in the archives...";
+            const reportData = Object.fromEntries(new FormData(form));
+            reportData.id = Date.now();
+            reportData.submittedAt = new Date().toISOString();
+
+            try {
+                const response = await fetch("/api/reports", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(reportData)
+                });
+                if (!response.ok) throw new Error("Offline");
+                statusMessage.textContent = "✦ Sighting successfully archived! ✦";
+            } catch (error) {
+                const localReports = JSON.parse(localStorage.getItem("reports") || "[]");
+                localReports.push(reportData);
+                localStorage.setItem("reports", JSON.stringify(localReports));
+                statusMessage.textContent = "✦ Sighting saved to local archives! ✦";
+                statusMessage.style.color = "#4ade80";
+            }
+            form.reset();
+            subtypeContainer.innerHTML = "";
+            setTimeout(() => { statusMessage.textContent = ""; }, 5000);
         });
     }
 });
