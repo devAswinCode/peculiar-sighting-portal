@@ -4,29 +4,25 @@ document.addEventListener("DOMContentLoaded", () => {
     let isTouchDevice = false;
     const cursor = document.getElementById('custom-cursor');
 
-    // Detect touch once and kill the orb forever for this session
+    // Detect touch once and disable orb for mobile
     window.addEventListener('touchstart', function onFirstTouch() {
         isTouchDevice = true;
         if (cursor) cursor.style.display = 'none';
         window.removeEventListener('touchstart', onFirstTouch, false);
     }, false);
 
-    // Single MouseMove Listener for both Orb and Sparkles
+    // Orb and Sparkle movement
     document.addEventListener('mousemove', (e) => {
-        // Exit if it's a touch device or doesn't have a fine pointer
         if (isTouchDevice || !window.matchMedia("(pointer: fine)").matches) {
             if (cursor) cursor.style.display = 'none';
             return;
         }
 
-        // 1. Move the Main Orb (Fixed to window)
         if (cursor) {
             cursor.style.display = 'block';
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         }
-
-        // 2. Create the Trail/Sparkles (Absolute to page)
         createSparkle(e.pageX, e.pageY);
     });
 
@@ -94,10 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
-            statusMessage.textContent = "📜 Logging sighting in the archives...";
+            statusMessage.textContent = "📜 Logging sighting...";
+            
             const reportData = Object.fromEntries(new FormData(form));
             reportData.id = Date.now();
-            reportData.submittedAt = new Date().toISOString();
+            reportData.submittedAt = new Date().toLocaleString();
 
             try {
                 const response = await fetch("/api/reports", {
@@ -119,39 +116,36 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => { statusMessage.textContent = ""; }, 5000);
         });
     }
-});
-// --- 4. ARCHIVES PAGE LOGIC ---
+}); // END OF DOMCONTENTLOADED
+
+// --- 4. ARCHIVES PAGE LOGIC (OUTSIDE MAIN BLOCK) ---
 async function loadLocalArchives() {
     const grid = document.getElementById('reports-grid');
     if (!grid) return;
 
     let allReports = [];
 
-    // 1. Fetch the "lore" from reports.json
+    // Fetch static JSON lore
     try {
         const response = await fetch("reports.json");
         if (response.ok) {
-            const jsonReports = await response.json();
-            allReports = [...jsonReports]; 
+            allReports = await response.json(); 
         }
     } catch (err) {
-        console.warn("Could not load reports.json, showing local only.", err);
+        console.warn("Could not load reports.json", err);
     }
 
-    // 2. Fetch the "user sightings" from LocalStorage
+    // Fetch user entries from LocalStorage
     const localData = JSON.parse(localStorage.getItem("reports") || "[]");
-    
-    // 3. Merge them into one master list
     allReports = [...allReports, ...localData];
 
-    // 4. Handle Empty State
     if (allReports.length === 0) {
-        grid.innerHTML = "<p class='no-data' style='text-align:center; grid-column: 1/-1;'>The archives are currently empty...</p>";
+        grid.innerHTML = "<p class='no-data' style='text-align:center; grid-column: 1/-1;'>The archives are empty...</p>";
         return;
     }
 
-    // 5. Display EVERYTHING (Newest at the top)
-    grid.innerHTML = allReports.map(report => `
+    // Simple Render (No animations to ensure stability)
+    grid.innerHTML = allReports.reverse().map(report => `
         <div class="report-card">
             <h3 style="color: #7dd3fc; margin-top: 0;">${(report.type || 'Sighting').toUpperCase()}: ${report.subtype || 'Unknown'}</h3>
             <p><strong>Witness:</strong> ${report.name || 'Anonymous'}</p>
@@ -159,11 +153,8 @@ async function loadLocalArchives() {
             <p>${report.description || 'No details provided.'}</p>
             <small style="color: rgba(255,255,255,0.5)">Log Date: ${report.submittedAt || report.datetime || 'N/A'}</small>
         </div>
-    `).reverse().join(''); 
+    `).join(''); 
 }
 
-// Single load listener to trigger the merge
-window.addEventListener('load', () => {
-    console.log("Archives engine initialized and merging data...");
-    loadLocalArchives(); 
-});
+// Single load trigger
+window.addEventListener('load', loadLocalArchives);
