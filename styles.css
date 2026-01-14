@@ -92,6 +92,13 @@ input, select, textarea {
   box-sizing: border-box; /* Keeps the box from stretching too wide */
   font-family: inherit;
   transition: all 0.3s ease;
+  color-scheme: dark;
+}
+
+/* Specific fix for the options inside the dropdown */
+select option {
+  background-color: #111; /* Forces a dark background on Windows */
+  color: #fff;            /* Forces white text */
 }
 
 ::placeholder {
