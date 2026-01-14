@@ -21,9 +21,9 @@ This project demonstrates:
 
 ---
 
-## Objectives (Client Brief Alignment)
+## Objectives 
 
-This project was designed to meet the following objectives from the brief:
+This project was designed to meet the following objectives
 
 - Build a functional website for reporting unusual sightings
 - Provide a clear reporting form with required fields
