@@ -1,13 +1,11 @@
-/* ================================================================
-   PECULIAR SIGHTING TRACKER - FINAL STYLING ENGINE
-   Theme: Magical Glassmorphism & Mystical Archives
-   ================================================================
+/* PECULIAR SIGHTING TRACKER 
+   A theme built on "Magical Glassmorphism" — lots of blurs, glows, and dark mystery.
 */
 
-/* FONTS */
+/* 1. FONTS: Importing 'Cinzel' for headers (magical look) and 'Quicksand' for easy reading. */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Quicksand:wght@400;600&display=swap');
 
-/* --- 1. GLOBAL RESET & ATMOSPHERE --- */
+/* 2. BODY SETUP: We want everything centered and looking like it's floating in space. */
 body {
   font-family: 'Quicksand', sans-serif;
   background: black;
@@ -20,6 +18,7 @@ body {
   overflow-x: hidden;
 }
 
+/* 3. BACKGROUND VIDEO: This keeps the video stuck to the back so it doesn't move. */
 #bg-video {
   position: fixed;
   top: 0;
@@ -28,10 +27,10 @@ body {
   height: 100%;
   object-fit: cover;
   z-index: -1; 
-  filter: brightness(0.3);
+  filter: brightness(0.3); /* Darkens the video so text stands out */
 }
 
-/* --- 2. MAIN INTERFACE CONTAINER --- */
+/* 4. THE MAIN CONTAINER: This is our 'Glass' panel with the blur effect. */
 .container {
   background: rgba(0, 0, 0, 0.6); 
   backdrop-filter: blur(15px);
@@ -43,9 +42,10 @@ body {
   max-width: 950px;
   box-shadow: 0 20px 50px rgba(0,0,0,0.5);
   margin: 20px;
-  animation: pageReveal 1s ease-out forwards;
+  animation: pageReveal 1s ease-out forwards; /* Makes the box fade in smoothly */
 }
 
+/* 5. TITLES: Creating a 'shining' blue gradient effect for the main header. */
 h1 {
   font-family: 'Cinzel Decorative', serif;
   text-align: center;
@@ -60,7 +60,7 @@ h1 {
   filter: drop-shadow(0 0 8px rgba(125, 211, 252, 0.6));
 }
 
-/* --- 3. FORM DESIGN & INPUTS --- */
+/* 6. FORM STRUCTURE: Splitting the form into two side-by-side columns. */
 form {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -72,6 +72,7 @@ form {
   flex-direction: column;
 }
 
+/* 7. INPUT BOXES: Transparent backgrounds with a glow effect when you click them. */
 label {
   margin-top: 15px;
   font-weight: 600;
@@ -88,16 +89,16 @@ input, select, textarea {
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   color: #fff;
-  box-sizing: border-box;
+  box-sizing: border-box; /* Keeps the box from stretching too wide */
   font-family: inherit;
   transition: all 0.3s ease;
 }
 
-/* Accessibility: Placeholder contrast */
 ::placeholder {
   color: rgba(255, 255, 255, 0.6);
 }
 
+/* Focus State: When the user is typing, make the box glow blue. */
 input:focus, select:focus, textarea:focus {
   outline: none;
   border-color: #7dd3fc;
@@ -108,18 +109,17 @@ input:focus, select:focus, textarea:focus {
 
 textarea { height: 180px; resize: none; }
 
-/* --- 4. BUTTONS & NAVIGATION --- */
+/* 8. BUTTONS & LINKS: Styling the big circle Submit button and the pill-shaped link. */
 .button-container {
-  grid-column: span 2; 
+  grid-column: span 2; /* Spans across both columns to stay centered */
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centers everything horizontally */
+  align-items: center;
   justify-content: center;
   margin-top: 30px;
-  gap: 20px; /* Consistent spacing between the button and the link */
+  gap: 20px;
 }
 
-/* Base Styles for BOTH Submit and Links */
 button[type="submit"], 
 .fancy-view-link {
   display: flex;
@@ -130,13 +130,13 @@ button[type="submit"],
   font-family: 'Cinzel Decorative', serif;
   text-transform: uppercase;
   text-decoration: none;
-  cursor: none; /* Keep the custom orb as the only cursor */
+  cursor: none; /* We hide the cursor here because the custom orb is used instead */
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   background: rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
 }
 
-/* Specific Shapes */
+/* The round Submit button */
 button[type="submit"] {
   width: 130px;
   height: 130px;
@@ -146,37 +146,35 @@ button[type="submit"] {
   letter-spacing: 2px;
 }
 
+/* The pill-shaped Archives link */
 .fancy-view-link {
   padding: 12px 30px;
   border: 1px solid rgba(125, 211, 252, 0.3);
   border-radius: 30px;
   font-size: 0.7rem;
   letter-spacing: 4px;
-  min-width: 200px; /* Ensures a consistent pill size */
+  min-width: 200px;
 }
 
-/* --- THE UNIFIED MAGIC HOVER --- */
+/* Magic Hover: Makes buttons float up and glow when you hover over them. */
 button[type="submit"]:hover, 
 .fancy-view-link:hover {
   background: rgba(125, 211, 252, 0.15);
   border-color: #7dd3fc;
   color: #7dd3fc;
-  transform: translateY(-5px) scale(1.05); /* Lift effect */
-  box-shadow: 
-    0 0 15px rgba(125, 211, 252, 0.4),
-    0 0 30px rgba(125, 211, 252, 0.2),
-    inset 0 0 10px rgba(125, 211, 252, 0.1);
-  letter-spacing: 5px; /* Subtle mystical expansion */
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 0 15px rgba(125, 211, 252, 0.4), 0 0 30px rgba(125, 211, 252, 0.2);
+  letter-spacing: 5px;
 }
 
-/* --- THE UNIFIED CLICK EFFECT --- */
+/* Click Effect: A tiny 'press' animation. */
 button[type="submit"]:active, 
 .fancy-view-link:active {
-  transform: translateY(2px) scale(0.95); /* Realistic press effect */
+  transform: translateY(2px) scale(0.95);
   transition: all 0.1s;
 }
 
-/* --- 5. ARCHIVE GRID --- */
+/* 9. ARCHIVE GRID: Organizing the sightings on the second page. */
 .reports-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -196,16 +194,13 @@ button[type="submit"]:active,
   border-color: #7dd3fc;
 }
 
-/*--- 6. CURSOR & MAGICAL EFFECTS --- */
-
-/* 1. Global Safety: Ensure standard cursor is visible by default */
+/* 10. CUSTOM CURSOR: Creating the glowing blue orb. */
 html, body, a, button, input, select, textarea {
   cursor: auto; 
 }
 
-/* 2. The Orb: Hidden by default so it doesn't get stuck at 0,0 */
 #custom-cursor {
-  display: none;
+  display: none; /* JS will turn this on if it detects a mouse */
   position: fixed;
   top: 0;
   left: 0;
@@ -218,49 +213,33 @@ html, body, a, button, input, select, textarea {
   z-index: 10000;
   box-shadow: 0 0 20px #7dd3fc, 0 0 40px rgba(125, 211, 252, 0.4);
   transform: translate(-50%, -50%);
-  /* Remove transition for cursor movement to prevent "lag" feeling */
   transition: width 0.3s, height 0.3s, background 0.3s; 
 }
 
-/* 3. Desktop Magic: Only apply if device has a mouse and supports hover */
+/* 11. DESKTOP ONLY: We only want the custom cursor logic on computers with mice. */
 @media (pointer: fine) and (hover: hover) {
-  /* Hide the system cursor only on Desktop */
   html, body, a, button, input, select, textarea {
-    cursor: none !important;
+    cursor: none !important; /* Hide the boring default white arrow */
   }
 
-  /* Show the orb */
-  #custom-cursor {
-    display: block;
-  }
+  #custom-cursor { display: block; }
 
-  /* Scale effect when clicking */
+  /* Scale effect when the user clicks down */
   #custom-cursor.clicking {
     transform: translate(-50%, -50%) scale(0.7);
     background: rgba(125, 211, 252, 0.9);
   }
-
-  /* Hover scaling - simplified to target any clickable element */
-  a:hover ~ #custom-cursor, 
-  button:hover ~ #custom-cursor,
-  input:hover ~ #custom-cursor,
-  select:hover ~ #custom-cursor {
-    width: 40px;
-    height: 40px;
-    background: rgba(125, 211, 252, 0.3);
-  }
 }
 
-/* 4. Mobile Safety: Force hide orb and restore cursor on touch devices */
+/* 12. MOBILE SAFETY: Phones don't need the orb, so we force it off. */
 @media (pointer: coarse) {
-  #custom-cursor {
-    display: none !important;
-  }
+  #custom-cursor { display: none !important; }
   html, body, a, button, input, select, textarea {
     cursor: auto !important;
   }
 }
 
+/* 13. SPARKLE TRAIL: The tiny lights that follow your mouse movement. */
 .sparkle {
   position: absolute;
   background: radial-gradient(circle, #fff, #7dd3fc); 
@@ -270,7 +249,8 @@ html, body, a, button, input, select, textarea {
   animation: fadeOut 1s forwards;
   z-index: 9999;
 }
-/* --- 7. ANIMATIONS --- */
+
+/* 14. ANIMATIONS: The logic for the fade-ins and fade-outs. */
 @keyframes pageReveal {
   from { opacity: 0; transform: translateY(10px); filter: blur(5px); }
   to { opacity: 1; transform: translateY(0); filter: blur(0); }
@@ -281,7 +261,7 @@ html, body, a, button, input, select, textarea {
   100% { opacity: 0; transform: translateY(20px) scale(0); }
 }
 
-/* --- 8. MOBILE & UTILITY --- */
+/* 15. RESPONSIVE DESIGN: Stacking the form columns on smaller screens (phones). */
 @media (max-width: 768px) {
   form { grid-template-columns: 1fr; gap: 15px; }
   .button-container { grid-column: span 1; }
@@ -289,6 +269,7 @@ html, body, a, button, input, select, textarea {
   h1 { font-size: 1.8rem; }
 }
 
+/* 16. SOUND BUTTON: Fixed position at the bottom right corner. */
 .audio-btn {
   position: fixed;
   bottom: 20px;
