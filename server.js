@@ -35,12 +35,12 @@ app.get("/api/reports", (req, res) => {
   res.json(reports);
 });
 
-// ✅ Serve submission form at /
+// Serve submission form at /
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// ✅ Serve reports page at /reports.html
+// Serve reports page at /reports.html
 app.get("/reports.html", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "reports.html"));
 });
