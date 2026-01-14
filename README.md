@@ -1,57 +1,189 @@
-Project: Peculiar Sighting Tracker
-A "Report a Sighting" Web Portal for the Paranormal and Magical
+# 🛸 Peculiar Sighting Portal
 
-Project Overview
-This project is a functional, immersive web application designed to allow users to report and archive unusual sightings, such as ghost encounters or escaped magical animals. The portal emphasizes thematic immersion, WCAG 2.2 accessibility, and resilient data handling within a static hosting environment.
+A fictional reporting system for unusual and mysterious events.
 
-Technology Stack
-Frontend: HTML5, CSS3, JavaScript (ES6+).
+Live Site: https://devaswincode.github.io/peculiar-sighting-portal/  
+Source Code: https://github.com/devAswinCode/peculiar-sighting-portal
 
-Hosting: GitHub Pages (Static Hosting).
+---
 
-Data Persistence: Hybrid approach using JSON (Static Lore) and LocalStorage (User-generated content).
+## Project Overview
 
-Asset Management: Background video and audio toggles optimized for browser autoplay policies.
+The Peculiar Sighting Portal is a creative web application developed in response to Torbay Council’s “Report a Peculiar Sighting” technical brief.
 
-Technical Architecture and Logic
-1. Hybrid Data Management
-Because GitHub Pages does not support server-side file writing, I implemented a Hybrid Data Layer:
+The site allows users to report unusual or paranormal events such as ghost sightings or missing magical creatures through a clear, accessible, and engaging interface. While the theme is playful, the implementation focuses on strong fundamentals in front-end development, accessibility, dynamic form logic, and clear documentation.
 
-Official Archives (reports.json): Acts as a read-only database for pre-existing official sightings.
+This project demonstrates:
+- Dynamic form behaviour using JavaScript
+- Accessible and responsive UI design
+- Thoughtful technical decision-making
+- Scalable architecture despite static hosting constraints
 
-Browser Persistence (LocalStorage): When a user submits a report, the data is stringified into JSON and stored in the browser's local memory.
+---
 
-Data Merging: The "View Archives" page runs an asynchronous script that fetches the static JSON file and merges it with the LocalStorage array, providing a seamless "live" experience for the user without requiring a paid backend.
+## Objectives (Client Brief Alignment)
 
-2. Dynamic Form Behavior
-The reporting form utilizes event listeners to monitor the "Sighting Category." Based on the user's selection, the "Specify Entity" dropdown dynamically updates its options (e.g., switching between a list of Ghost types and Magical Animal species), fulfilling the core requirement for Dynamic Form Behavior.
+This project was designed to meet the following objectives from the brief:
 
-3. Audio and Video Implementation
-To comply with strict browser security policies (like Safari's Autoplay restrictions), I implemented a manual Audio Toggle. This ensures the atmosphere is user-invoked, preventing the browser from blocking the site’s media elements.
+- Build a functional website for reporting unusual sightings
+- Provide a clear reporting form with required fields
+- Implement dynamic dropdown behaviour
+- Apply CSS styling and imagery
+- Aim for WCAG 2.2 AA accessibility compliance
+- Ensure responsiveness on desktop and mobile
+- Provide clear documentation explaining technical choices
 
-Accessibility (WCAG 2.2 AA Compliance)
-Special attention was given to ensure the portal is usable by all investigators:
+---
 
-Semantic HTML: Used proper label tags with "for" attributes linked to input IDs for screen reader compatibility.
+## Technology Stack & Architecture
 
-Keyboard Navigation: Implemented custom focus rings with a cyan glow to ensure users navigating via the Tab key can clearly see their location.
+### Front-End
+- HTML5 with semantic elements (header, main, section, form, label)
+- CSS3 for layout, styling, and responsiveness
+- Vanilla JavaScript (ES6+) for interactivity and logic
 
-Contrast and Legibility: Adjusted placeholder text opacity and container backgrounds to meet AA contrast ratios.
+### Data Storage Strategy
+Because GitHub Pages does not support server-side code or databases, a hybrid client-side storage approach was used:
 
-Interactive Safety: The custom "Glowing Orb" cursor uses "pointer-events: none" to ensure it never interferes with the clickability of form elements.
+- reports.json  
+  Used for initial static data and example reports
+- Browser LocalStorage  
+  Used to persist user-submitted reports on the client device
 
-Creative Features (Big Picture)
-Immersive UX: A custom JavaScript-driven cursor (Glowing Orb) with a sparkle trail that tracks mouse movement using clientX/Y coordinates for accuracy across different screen sizes.
+This approach satisfies the brief requirement to either implement or document a data-handling solution while remaining fully functional on free hosting.
 
-Visual Feedback: The submission process includes state changes (disabling the button and changing text) to inform the user that their data is being transmitted to the archives.
+---
 
-Export Capability: A "Download for Excel" feature that converts LocalStorage data into a CSV format, demonstrating the ability to move data out of the browser.
+## Reporting Feature
 
-How to Run Locally
-Clone the repository.
+### Captured Fields
+The reporting form captures all required fields from the brief:
+- Name
+- Contact details (optional)
+- What has been sighted
+- Date and time
+- Location
+- Description (optional)
 
-Open the folder in a code editor (e.g., VS Code).
+### Dynamic Form Behaviour
+JavaScript is used to dynamically update the form based on the selected sighting type:
+- Selecting “Ghost Sighting” displays a list of ghost types
+- Selecting “Escaped Magical Animal” displays a list of magical animals
 
-Use an extension like Live Server to host locally (this prevents CORS errors when fetching the reports.json file).
+This improves usability, keeps the interface clean, and ensures accurate data entry.
 
-Navigate to index.html to begin reporting sightings.
+---
+
+## Viewing Submitted Reports
+
+An additional page allows users to view previously submitted sightings. Reports are displayed in a readable format and loaded dynamically from stored data.
+
+This supports the optional user story of browsing previous reports to see what unusual activity has occurred.
+
+---
+
+## Design & User Experience
+
+- Dark, atmospheric colour scheme to match the paranormal theme
+- Background imagery for added immersion
+- Clear typography and spacing for readability
+- Styled buttons and form elements for usability
+
+### Responsiveness
+- Layout adapts to desktop, tablet, and mobile screens
+- Form remains fully usable on small devices
+- Supports reporting sightings while on the go
+
+---
+
+## Accessibility (WCAG 2.2 AA Considerations)
+
+Accessibility was considered throughout development:
+
+- Semantic HTML for screen readers
+- High colour contrast for text and controls
+- ARIA live region for form submission feedback
+- Keyboard navigation support with visible focus states
+- Alt text provided where applicable
+
+These measures help ensure the site is usable by users with visual or motor impairments.
+
+---
+
+## Challenges & Solutions
+
+### Challenge 1: No Server-Side Storage on GitHub Pages
+GitHub Pages does not allow writing to files or databases.
+
+Solution:  
+User submissions are stored using the browser’s LocalStorage API. The code is structured so this logic can later be replaced with a real backend or database without changing the front-end.
+
+---
+
+### Challenge 2: Dynamic Behaviour Without Frameworks
+Dynamic form behaviour needed to be implemented without using frameworks like React.
+
+Solution:  
+A simple JavaScript mapping object and DOM update logic were used, keeping the code lightweight, readable, and easy to maintain.
+
+---
+
+### Challenge 3: Mobile Compatibility
+Certain interactive effects behave differently on touch devices.
+
+Solution:  
+The layout and interactions were designed to work without relying on mouse-specific behaviour, ensuring usability on mobile devices.
+
+---
+
+## Big Picture & Future Scalability
+
+The project is designed with future expansion in mind:
+
+- Replace LocalStorage with a REST API or database (Node.js, Firebase, Supabase)
+- Use browser geolocation to auto-fill the location field
+- Allow users to upload images as evidence
+- Add moderation or admin review functionality
+
+---
+
+## Testing
+
+The application was tested on:
+- Desktop browsers (Chrome, Firefox)
+- Mobile screen sizes using responsive design tools
+
+Verified functionality includes:
+- Dynamic dropdown behaviour
+- Form validation and submission
+- Persistent storage using LocalStorage
+- Keyboard navigation and accessibility flow
+
+---
+
+## Running the Project Locally
+
+Clone the repository:
+
+git clone https://github.com/devAswinCode/peculiar-sighting-portal.git  
+cd peculiar-sighting-portal
+
+Open index.html directly in a browser or use a local development server.
+
+---
+
+## Evaluation Criteria Self-Assessment
+
+Functionality: Dynamic form, data capture, report viewing implemented  
+Design & UX: Clear layout, themed styling, responsive design  
+Accessibility: Semantic HTML, contrast, keyboard support  
+Big Picture: Scalable architecture and future roadmap  
+Code Quality: Clean, readable, maintainable JavaScript  
+Documentation: Clear explanation of technology choices and logic
+
+---
+
+## Author
+
+Aswin Shaji  
+Apprentice Software Developer Candidate  
