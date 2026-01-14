@@ -150,8 +150,9 @@ The project is designed with future expansion in mind:
 ## Testing
 
 The application was tested on:
-- Desktop browsers (Chrome, Firefox)
-- Mobile screen sizes using responsive design tools
+- Desktop browsers (Chrome, Firefox, Safari)
+- Mobile screen sizes using responsive design tools , also tested on both Andriod(Chrome) and IOS(Apple Safari) Browsers.
+
 
 Verified functionality includes:
 - Dynamic dropdown behaviour
