@@ -51,6 +51,7 @@ Because GitHub Pages does not support server-side code or databases, a hybrid cl
   Used to persist user-submitted reports on the client device
 
 This approach satisfies the brief requirement to either implement or document a data-handling solution while remaining fully functional on free hosting.
+*A lightweight Node.js/Express backend was also implemented locally to demonstrate how the same front-end could persist data to a server-side JSON file if required.*
 
 ---
 
@@ -151,7 +152,7 @@ The project is designed with future expansion in mind:
 
 The application was tested on:
 - Desktop browsers (Chrome, Firefox, Safari)
-- Mobile screen sizes using responsive design tools , also tested on both Andriod(Chrome) and IOS(Apple Safari) Browsers.
+- Mobile screen sizes using responsive design tools , also tested on both Android(Chrome) and IOS(Apple Safari) Browsers.
 
 
 Verified functionality includes:
@@ -183,6 +184,21 @@ Code Quality: Clean, readable, maintainable JavaScript
 Documentation: Clear explanation of technology choices and logic
 
 ---
+
+---
+
+## Conclusion
+
+This project demonstrates:
+- Strong frontend fundamentals
+- Thoughtful UX and accessibility design
+- Clear architectural decision-making
+- Awareness of real-world scalability requirements
+
+The Peculiar Sighting Portal is designed to be simple, effective, and easily extendable.
+
+---
+
 
 ## Author
 
